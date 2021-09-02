@@ -1,8 +1,6 @@
 package com.example;
 
-import com.example.core.utils.Registry;
 import com.example.resources.HomePageResource;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -21,19 +19,13 @@ public class LoginDemoApplication extends Application<LoginDemoConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<LoginDemoConfiguration> bootstrap) {
-        // TODO: application initialization
-    }
-
-    public static Injector createGuiceInjector(LoginDemoConfiguration config) {
-        Injector injector = Guice.createInjector(new InitRegistry(config));
-        Registry.init(injector);
-        return injector;
+        bootstrap.addCommand(new MigrateCommand(this));
     }
 
     @Override
     public void run(final LoginDemoConfiguration configuration, final Environment environment) {
 
-        Injector injector = createGuiceInjector(configuration);
+        Injector injector = BootstrapUtils.createGuiceInjector(configuration);
         injector.injectMembers(this);
 
         Module module = injector.getInstance(Module.class);
