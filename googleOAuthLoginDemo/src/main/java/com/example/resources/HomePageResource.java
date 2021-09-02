@@ -8,7 +8,7 @@ public class HomePageResource {
 
     @GET
     public String handleGetRequest(){
-        return "Hello from Dropwizard!";
+        return "Hello  from Dropwizard!";
     }
 
 }
