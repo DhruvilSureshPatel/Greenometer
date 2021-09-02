@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 
+import java.security.Principal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -21,7 +22,7 @@ import java.sql.SQLException;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class User {
+public class User implements Principal {
 
     private long id;
     @Length(max = 45,
@@ -39,8 +40,9 @@ public class User {
             message = "length must be lesser than or equal to {max} and greater than {min}")
     @NotBlank(message = "must be specified")
     private String password;
-    private boolean is_deleted;
+    private boolean isDeleted;
     private String token;
+    private long rewardPoints;
 
     public static class UserMapper implements RowMapper<User> {
 
@@ -51,7 +53,9 @@ public class User {
                     .name(rs.getString("name"))
                     .email(rs.getString("email"))
                     .password(rs.getString("password"))
+                    .isDeleted(rs.getBoolean("is_deleted"))
                     .token(rs.getString("token"))
+                    .rewardPoints(rs.getLong("reward_points"))
                     .build();
         }
     }

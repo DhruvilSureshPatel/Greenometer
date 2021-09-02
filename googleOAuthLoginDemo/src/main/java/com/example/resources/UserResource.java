@@ -56,5 +56,31 @@ public class UserResource {
         userService.deleteUser(userAuthenticated.get());
         return Response.ok().build();
     }
+
+    @POST
+    @Path("/add-points/{rewardPoints}")
+    public Response addRewardPoints(@Auth User user, @PathParam("rewardPoints") long rewardPoints) throws CustomException {
+        Optional<User> userAuthenticated = userService.authenticateUser(user);
+        if (!userAuthenticated.isPresent()) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        userService.updateRewardPoints(user, rewardPoints, true);
+        return Response.ok(ImmutableMap.of("status", "true", "message", "successfully updated reward points")).build();
+    }
+
+    @POST
+    @Path("/deduct-points/{rewardPoints}")
+    public Response decuctRewardPoints(@Auth User user, @PathParam("rewardPoints") long rewardPoints) {
+        Optional<User> userAuthenticated = userService.authenticateUser(user);
+        if (!userAuthenticated.isPresent()) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        try {
+            userService.updateRewardPoints(user, rewardPoints, false);
+        } catch (CustomException e) {
+            return Response.ok(ImmutableMap.of("status", "false", "message", e.getMessage())).build();
+        }
+        return Response.ok(ImmutableMap.of("status", "true", "message", "successfully updated reward points")).build();
+    }
     
 }

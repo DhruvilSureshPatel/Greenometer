@@ -4,8 +4,6 @@ import com.example.models.User;
 import com.google.inject.Inject;
 import org.jdbi.v3.core.Jdbi;
 
-import java.util.Optional;
-
 public class UserDAO {
 
     private final Jdbi jdbi;
@@ -17,13 +15,12 @@ public class UserDAO {
     }
 
     public Long createUser(User user) {
-        return jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO users values (:id, :name, :email, :password, :is_deleted, :token)")
-                .bind("id", Optional.empty())
+        return jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO users(name, email, password, " +
+                        "reward_points) values (:name, :email, :password, :reward_points)")
                 .bind("name", user.getName())
                 .bind("email", user.getEmail())
                 .bind("password", user.getPassword())
-                .bind("is_deleted", Boolean.FALSE)
-                .bind("token", Optional.empty())
+                .bind("reward_points", 0L)
                 .executeAndReturnGeneratedKeys()
                 .mapTo(Long.class).findFirst().orElse(null)
         );
@@ -58,5 +55,13 @@ public class UserDAO {
     public void deleteUser(User user) {
         jdbi.withHandle(handle -> handle.createUpdate("UPDATE users set is_deleted = 1 where id = :id")
                 .bind("id", user.getId()).execute());
+    }
+
+    public void updateRewardPoints(long rewardPoints, long id) {
+        jdbi.withHandle(handle -> handle.createUpdate("UPDATE users set reward_points = :reward_points where id = :id and is_deleted = 0")
+                .bind("id", id)
+                .bind("reward_points", rewardPoints)
+                .execute()
+        );
     }
 }
