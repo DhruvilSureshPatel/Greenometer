@@ -1,6 +1,7 @@
 package com.example.resources;
 
 import com.example.core.exceptions.CustomException;
+import com.example.core.utils.RestUtils;
 import com.example.daos.UserLogin;
 import com.example.models.User;
 import com.example.services.UserService;
@@ -32,9 +33,11 @@ public class UserResource {
         try {
             userService.createNewUser(user);
         } catch (CustomException e) {
-            return Response.ok(ImmutableMap.of("status", "false", "message", e.getMessage())).build();
+            return RestUtils.getResponseBuilder(Response.Status.OK)
+                    .entity(ImmutableMap.of("status", "false", "message", e.getMessage()))
+                    .build();
         }
-        return Response.status(Response.Status.CREATED).build();
+        return RestUtils.getResponseBuilder(Response.Status.CREATED).build();
     }
 
     @POST
@@ -42,19 +45,21 @@ public class UserResource {
     public Response signin(@Valid UserLogin userLogin) {
         String token = userService.isValidUser(userLogin);
         if (token == null) {
-            return Response.ok(ImmutableMap.of("status", "false", "message", "Invalid User")).build();
+            return RestUtils.getResponseBuilder(Response.Status.OK)
+                    .entity(ImmutableMap.of("status", "false", "message","Invalid User"))
+                    .build();
         }
-        return Response.ok(ImmutableMap.of("token", token)).build();
+        return RestUtils.getResponseBuilder(Response.Status.CREATED).entity(ImmutableMap.of("token", token)).build();
     }
 
     @DELETE
     public Response deleteUserByEmail(@Auth User user) {
         Optional<User> userAuthenticated = userService.authenticateUser(user);
         if (!userAuthenticated.isPresent()) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return RestUtils.getResponseBuilder(Response.Status.UNAUTHORIZED).build();
         }
         userService.deleteUser(userAuthenticated.get());
-        return Response.ok().build();
+        return RestUtils.getResponseBuilder(Response.Status.OK).build();
     }
 
     @POST
@@ -62,10 +67,12 @@ public class UserResource {
     public Response addRewardPoints(@Auth User user, @PathParam("rewardPoints") long rewardPoints) throws CustomException {
         Optional<User> userAuthenticated = userService.authenticateUser(user);
         if (!userAuthenticated.isPresent()) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return RestUtils.getResponseBuilder(Response.Status.UNAUTHORIZED).build();
         }
         userService.updateRewardPoints(user, rewardPoints, true);
-        return Response.ok(ImmutableMap.of("status", "true", "message", "successfully updated reward points")).build();
+        return RestUtils.getResponseBuilder(Response.Status.OK)
+                .entity(ImmutableMap.of("status", "true", "message", "successfully updated reward points"))
+                .build();
     }
 
     @POST
@@ -73,14 +80,18 @@ public class UserResource {
     public Response decuctRewardPoints(@Auth User user, @PathParam("rewardPoints") long rewardPoints) {
         Optional<User> userAuthenticated = userService.authenticateUser(user);
         if (!userAuthenticated.isPresent()) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            return RestUtils.getResponseBuilder(Response.Status.UNAUTHORIZED).build();
         }
         try {
             userService.updateRewardPoints(user, rewardPoints, false);
         } catch (CustomException e) {
-            return Response.ok(ImmutableMap.of("status", "false", "message", e.getMessage())).build();
+            return RestUtils.getResponseBuilder(Response.Status.OK)
+                    .entity(ImmutableMap.of("status", "false", "message", e.getMessage()))
+                    .build();
         }
-        return Response.ok(ImmutableMap.of("status", "true", "message", "successfully updated reward points")).build();
+        return RestUtils.getResponseBuilder(Response.Status.OK)
+                .entity(ImmutableMap.of("status", "true", "message", "successfully updated reward points"))
+                .build();
     }
     
 }
