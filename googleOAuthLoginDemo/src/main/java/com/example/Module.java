@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.models.User;
+import com.example.resources.PlantResource;
 import com.example.resources.TestResource;
 import com.example.resources.UserResource;
 import com.google.inject.Inject;
@@ -14,11 +15,13 @@ public class Module {
 
     private TestResource testResource;
     private UserResource userResource;
+    private PlantResource plantResource;
 
     @Inject
-    public Module(TestResource testResource, UserResource userResource) {
+    public Module(TestResource testResource, UserResource userResource, PlantResource plantResource) {
         this.testResource = testResource;
         this.userResource = userResource;
+        this.plantResource = plantResource;
     }
 
     public void initEnvironment(LoginDemoConfiguration configuration, Environment environment) {
@@ -34,6 +37,7 @@ public class Module {
 
         environment.jersey().register(testResource);
         environment.jersey().register(userResource);
+        environment.jersey().register(plantResource);
     }
 
 }

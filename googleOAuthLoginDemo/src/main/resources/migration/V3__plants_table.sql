@@ -1,0 +1,16 @@
+CREATE TABLE `plants` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `type` VARCHAR(45) NULL,
+  `image_data` VARCHAR(255) NOT NULL,
+  `o2_released` INT NULL,
+  `ghamla_length` INT NULL,
+  `ghamla_width` INT NULL,
+  `pouda_length` VARCHAR(45) NULL,
+  `pouda_width` INT NULL,
+  `is_deleted` TINYINT(2) NOT NULL DEFAULT 0,
+  `created_ts` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_ts` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));

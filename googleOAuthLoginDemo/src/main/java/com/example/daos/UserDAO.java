@@ -53,6 +53,13 @@ public class UserDAO {
     }
 
     public void deleteUser(User user) {
+        // TODO: delete all plants of User first and then delete User - Uncomment below part
+//        jdbi.useTransaction(handle -> {
+//            handle.attach(PlantDAO.class).deletePlantsOfAUser(user.getId());
+//            handle.createUpdate("UPDATE users set is_deleted = 1 where id = :id")
+//                    .bind("id", user.getId())
+//                    .execute();
+//        });
         jdbi.withHandle(handle -> handle.createUpdate("UPDATE users set is_deleted = 1 where id = :id")
                 .bind("id", user.getId()).execute());
     }
