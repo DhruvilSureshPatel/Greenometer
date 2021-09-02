@@ -1,10 +1,21 @@
 package com.example;
 
 import io.dropwizard.Configuration;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.validator.constraints.*;
+import lombok.Getter;
+
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 public class LoginDemoConfiguration extends Configuration {
-    // TODO: implement service configuration
+
+    @Valid
+    @NotNull
+    @Getter
+    private String dbURL;
+
+    @Valid
+    @NotNull
+    @Getter
+    private String configEncryptionMasterKey;
+
 }

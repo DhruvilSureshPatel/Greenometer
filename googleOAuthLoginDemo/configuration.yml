@@ -1,0 +1,23 @@
+dbURL: jdbc:mysql://localhost:3306/greenometer?autoReconnect=true&user=root&password=abcd1234&useSSL=false&useServerPrepStmts=false&rewriteBatchedStatements=true
+
+configEncryptionMasterKey: jHl5NsTYS8Bycn0fi6WilsQE5ZYjHnOW4AMt9ZY++rU=
+
+#database:
+#  driverClass: com.mysql.jdbc.Driver
+#  user: root
+#  password: abcd1234
+#  url: jdbc:mysql://localhost:3306/greenometer?autoReconnect=true&useSSL=false&useServerPrepStmts=false&rewriteBatchedStatements=true
+#  properties:
+#    charSet: UTF-8
+#  maxWaitForConnection: 1s
+#  validationQuery: "/* MyService Health Check */ SELECT 1"
+#  minSize: 8
+#  maxSize: 32
+#  checkConnectionWhileIdle: false
+#  evictionInterval: 10s
+#  minIdleTime: 1 minute
+
+logging:
+  level: INFO
+  loggers:
+    com.example: DEBUG

@@ -1,2 +1,5 @@
 com.example
+com.example.core.utils
+com.example.daos
+com.example.models
 com.example.resources

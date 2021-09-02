@@ -1,3 +1,10 @@
-com/example/LoginDemoApplication.class
 com/example/resources/HomePageResource.class
+com/example/Module.class
+com/example/models/TestModel.class
 com/example/LoginDemoConfiguration.class
+com/example/resources/TestResource.class
+com/example/core/utils/Registry.class
+com/example/LoginDemoApplication.class
+com/example/daos/TestDAO.class
+com/example/models/TestModel$TestModelBuilder.class
+com/example/InitRegistry.class
