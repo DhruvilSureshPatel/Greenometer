@@ -1,10 +1,7 @@
 package com.example.client;
 
-import com.example.services.PlantService;
 import com.google.cloud.vision.v1.*;
-import com.google.inject.Inject;
 import com.google.protobuf.ByteString;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,8 +19,9 @@ public class GCSClient {
         processImageFromFilePath("/Users/vaibhavkumar/Desktop/Cactus.jpeg");
     }
 
-    public static void processBase64Image(byte[] base64Image) throws IOException {
-        ByteString imgBytesBase64 = ByteString.copyFrom(base64Image);
+    public static void processBase64Image(String base64Image) throws IOException {
+        byte[] base64Byte = base64Image.getBytes();
+        ByteString imgBytesBase64 = ByteString.copyFrom(base64Byte);
         Image img = Image.newBuilder().setContent(imgBytesBase64).build();
         detectProperties(img);
     }
@@ -38,32 +36,24 @@ public class GCSClient {
     }
 
 
-    public static void detectProperties(Image img) throws IOException {
+    public static AnnotateImageResponse detectProperties(Image img) throws IOException {
         List<AnnotateImageRequest> requests = new ArrayList<>();
+        List<AnnotateImageResponse> responses = new ArrayList<>();
 
         Feature feat = Feature.newBuilder().setType(Feature.Type.IMAGE_PROPERTIES).build();
         AnnotateImageRequest request =
                 AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
         requests.add(request);
 
-
         try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
-            List<AnnotateImageResponse> responses = response.getResponsesList();
-
-            for (AnnotateImageResponse res : responses) {
-                if (res.hasError()) {
-                    System.out.format("Error: %s%n", res.getError().getMessage());
-                    return;
-                }
-
-                // For full list of available annotations, see http://g.co/cloud/vision/docs
-                if (res.getLocalizedObjectAnnotationsList().isEmpty()) {
-                    DominantColorsAnnotation colors = res.getImagePropertiesAnnotation().getDominantColors();
-                    System.out.println(colors.getColors(1));
-                }
-            }
+            responses = response.getResponsesList();
         }
+        return responses.get(0);
+    }
+
+    private void getLocalisedLength() {
+
     }
 
     private static byte[] readContentIntoByteArray(File file) {
