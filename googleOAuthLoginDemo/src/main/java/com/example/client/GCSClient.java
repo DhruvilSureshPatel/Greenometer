@@ -10,12 +10,12 @@ import java.util.List;
 
 /**
  * Interacts with Google Cloud Systems and fetches the response.
+ * Set the Env Variable to "GOOGLE_APPLICATION_CREDENTIALS=googleOAuthLoginDemo/auth/GoogleAuth.json"
  */
 public class GCSClient {
 
     //TODO : For Testing Replace with method {@processBase64Image} later.
     public static void main(String[] args) throws IOException {
-
         processImageFromFilePath("/Users/vaibhavkumar/Desktop/Cactus.jpeg");
     }
 
