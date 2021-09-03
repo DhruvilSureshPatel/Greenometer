@@ -36,6 +36,7 @@ public class GCSClient {
         // Initialize client that will be used to send requests. This client only needs to be created
         // once, and can be reused for multiple requests. After completing all of your requests, call
         // the "close" method on the client to safely clean up any remaining background resources.
+
         try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
             BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
             List<AnnotateImageResponse> responses = response.getResponsesList();
@@ -50,12 +51,20 @@ public class GCSClient {
                 DominantColorsAnnotation colors = res.getImagePropertiesAnnotation().getDominantColors();
                 //DominantColorsAnnotation colors = res.getImagePropertiesAnnotation().getDominantColors();
 
-                System.out.format("********************");
-                for (ColorInfo color : colors.getColorsList()) {
+                if (res.getLocalizedObjectAnnotationsList().isEmpty()) {
+                    float score_green = 0;
+                    for (ColorInfo color : colors.getColorsList()) {
+                        score_green += color.getColor().getGreen();
 
+                        System.out.println(score_green);
+                    }
+                    System.out.println("score_green");
                 }
-                System.out.format("********************");
             }
         }
+    }
+
+    private void detectViaColor() {
+
     }
 }

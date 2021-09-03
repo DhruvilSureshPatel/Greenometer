@@ -28,11 +28,11 @@ public class Plant {
     private String name;
     private String type;
     private String imageData;
-    private long o2Released;
-    private long ghamlaLength;
-    private long ghamlaWidth;
-    private long poudaLength;
-    private long poudaWidth;
+    private long o2Released = 2L;
+    private long ghamlaLength = 5;
+    private long ghamlaWidth = 6;
+    private long poudaLength = 8;
+    private long poudaWidth = 8;
     private boolean isDeleted;
 
     public static class PlantMapper implements RowMapper<Plant> {
