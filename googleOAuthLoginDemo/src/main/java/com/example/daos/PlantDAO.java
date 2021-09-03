@@ -18,13 +18,12 @@ public class PlantDAO {
     }
 
     public Long addPlant(Plant plant) {
-        return jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO plants(user_id, name, type, image_data, " +
+        return jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO plants(user_id, name, type, " +
                         "o2_released, ghamla_length, ghamla_width, pouda_length, pouda_width, age) values (:user_id, :name, :type, " +
-                        ":image_data, :o2_released, :ghamla_length, :ghamla_width, :pouda_length, :pouda_width, :age)")
+                        ":o2_released, :ghamla_length, :ghamla_width, :pouda_length, :pouda_width, :age)")
                 .bind("user_id", plant.getUserId())
                 .bind("name", plant.getName())
                 .bind("type", plant.getType())
-                .bind("image_data", plant.getImageData())
                 .bind("o2_released", 0L)
                 .bind("ghamla_length", plant.getGhamlaLength())
                 .bind("ghamla_width", plant.getGhamlaWidth())

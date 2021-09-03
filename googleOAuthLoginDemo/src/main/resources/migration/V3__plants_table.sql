@@ -3,7 +3,6 @@ CREATE TABLE `plants` (
   `user_id` INT NULL,
   `name` VARCHAR(45) NULL,
   `type` VARCHAR(45) NULL,
-  `image_data` VARCHAR(255) NOT NULL,
   `age` INT NULL,
   `o2_released` INT NULL,
   `ghamla_length` DOUBLE NULL,

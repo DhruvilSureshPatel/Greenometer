@@ -45,7 +45,6 @@ public class Plant {
                     .userId(rs.getLong("user_id"))
                     .name(rs.getString("name"))
                     .type(rs.getString("type"))
-                    .imageData(rs.getString("imageData"))
                     .age(rs.getLong("age"))
                     .o2Released(rs.getLong("o2_released"))
                     .ghamlaLength(rs.getDouble("ghamla_length"))
