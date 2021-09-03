@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class PlantService {
@@ -27,13 +28,23 @@ public class PlantService {
     public void upsertPlantDetails(Plant plant) throws Exception {
         Plant plantFound = null;
         if (plant.getId() != null) {
-            plantDAO.getPlant(plant.getId());
+            plantFound = plantDAO.getPlant(plant.getId());
         }
 
         AnnotateImageResponse annotateImageResponse = GCSClient.processBase64Image(plant.getImageData());
         List<LocalizedObjectAnnotation> localizedObjectAnnotations = annotateImageResponse.getLocalizedObjectAnnotationsList();
+        //TODO : Change below mentioned static values.
+        // Keeeping It default for now
         if (localizedObjectAnnotations.isEmpty()) {
-            throw new CustomException("Please retry capturing the image");
+            if (Objects.nonNull(plantFound)) {
+                plant.setPoudaLength(plantFound.getPoudaLength()+0.05);
+                plant.setPoudaWidth(plantFound.getPoudaWidth()+0.02);
+                plant.setGhamlaLength(plantFound.getGhamlaLength());
+                plant.setGhamlaWidth(plantFound.getGhamlaWidth());
+                plant.setO2Released(plantFound.getO2Released()+2);
+                plant.setAge(plantFound.getAge()+1);
+                plant.setType(plantFound.getType());
+            }
         }
         for(LocalizedObjectAnnotation localizedObjectAnnotation: localizedObjectAnnotations) {
             String name = localizedObjectAnnotation.getName();
