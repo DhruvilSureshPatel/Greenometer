@@ -93,5 +93,14 @@ public class UserResource {
                 .entity(ImmutableMap.of("status", "true", "message", "successfully updated reward points"))
                 .build();
     }
+
+    @GET
+    public Response getUserDetails(@Auth User user) {
+        Optional<User> userAuthenticated = userService.authenticateUser(user);
+        if (!userAuthenticated.isPresent()) {
+            return RestUtils.getResponseBuilder(Response.Status.UNAUTHORIZED).build();
+        }
+        return RestUtils.getResponseBuilder(Response.Status.OK).entity(userAuthenticated).build();
+    }
     
 }

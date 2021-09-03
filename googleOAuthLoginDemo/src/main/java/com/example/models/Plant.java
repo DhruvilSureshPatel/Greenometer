@@ -22,18 +22,18 @@ import java.sql.SQLException;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Plant {
 
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     @Length(max = 45, message = "length must be lesser than or equal to {max}")
     private String name;
     private String type;
     private String imageData;
     private long age;
     private long o2Released;
-    private long ghamlaLength;
-    private long ghamlaWidth;
-    private long poudaLength;
-    private long poudaWidth;
+    private double ghamlaLength;
+    private double ghamlaWidth;
+    private double poudaLength;
+    private double poudaWidth;
     private boolean isDeleted;
 
     public static class PlantMapper implements RowMapper<Plant> {
@@ -48,10 +48,10 @@ public class Plant {
                     .imageData(rs.getString("imageData"))
                     .age(rs.getLong("age"))
                     .o2Released(rs.getLong("o2_released"))
-                    .ghamlaLength(rs.getLong("ghamla_length"))
-                    .ghamlaWidth(rs.getLong("ghamla_width"))
-                    .poudaLength(rs.getLong("pouda_length"))
-                    .poudaWidth(rs.getLong("pouda_width"))
+                    .ghamlaLength(rs.getDouble("ghamla_length"))
+                    .ghamlaWidth(rs.getDouble("ghamla_width"))
+                    .poudaLength(rs.getDouble("pouda_length"))
+                    .poudaWidth(rs.getDouble("pouda_width"))
                     .isDeleted(rs.getBoolean("is_deleted"))
                     .build();
         }

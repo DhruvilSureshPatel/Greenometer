@@ -55,6 +55,10 @@ public class UserService {
         return userDAO.getUserByToken(token);
     }
 
+    public User getUserById(Long userId) {
+        return userDAO.getUser(userId);
+    }
+
     public void deleteUser(User user) {
         log.debug("trying to delete user with email:{}", user.getEmail());
         userDAO.deleteUser(user);
