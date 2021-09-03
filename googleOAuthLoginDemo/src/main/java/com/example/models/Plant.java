@@ -28,11 +28,12 @@ public class Plant {
     private String name;
     private String type;
     private String imageData;
-    private long o2Released = 2L;
-    private long ghamlaLength = 5;
-    private long ghamlaWidth = 6;
-    private long poudaLength = 8;
-    private long poudaWidth = 8;
+    private long age;
+    private long o2Released;
+    private long ghamlaLength;
+    private long ghamlaWidth;
+    private long poudaLength;
+    private long poudaWidth;
     private boolean isDeleted;
 
     public static class PlantMapper implements RowMapper<Plant> {
@@ -45,6 +46,7 @@ public class Plant {
                     .name(rs.getString("name"))
                     .type(rs.getString("type"))
                     .imageData(rs.getString("imageData"))
+                    .age(rs.getLong("age"))
                     .o2Released(rs.getLong("o2_released"))
                     .ghamlaLength(rs.getLong("ghamla_length"))
                     .ghamlaWidth(rs.getLong("ghamla_width"))

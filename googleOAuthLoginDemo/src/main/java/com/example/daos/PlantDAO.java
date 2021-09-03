@@ -19,8 +19,8 @@ public class PlantDAO {
 
     public Long addPlant(Plant plant) {
         return jdbi.withHandle(handle -> handle.createUpdate("INSERT INTO plants(user_id, name, type, image_data, " +
-                        "o2_released, ghamla_length, ghamla_width, pouda_length, pouda_width) values (:user_id, :name, :type, " +
-                        ":image_data, :o2_released, :ghamla_length, :ghamla_width, :pouda_length, :pouda_width)")
+                        "o2_released, ghamla_length, ghamla_width, pouda_length, pouda_width, age) values (:user_id, :name, :type, " +
+                        ":image_data, :o2_released, :ghamla_length, :ghamla_width, :pouda_length, :pouda_width, :age)")
                 .bind("user_id", plant.getUserId())
                 .bind("name", plant.getName())
                 .bind("type", plant.getType())
@@ -30,6 +30,7 @@ public class PlantDAO {
                 .bind("ghamla_width", plant.getGhamlaWidth())
                 .bind("pouda_length", plant.getPoudaLength())
                 .bind("pouda_width", plant.getPoudaWidth())
+                .bind("age", 0L)
                 .executeAndReturnGeneratedKeys()
                 .mapTo(Long.class).findFirst().orElse(null)
         );
