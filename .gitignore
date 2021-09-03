@@ -24,3 +24,5 @@ hs_err_pid*
 
 googleOAuthLoginDemo/target/*
 .idea/*
+
+googleOAuthLoginDemo/dataDir/*
